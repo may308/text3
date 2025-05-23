@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-5">
+  <div class="text-center">
+    <h2 class="mb-3">歡迎，{{ username | add_stars }}！</h2>
+    <p class="mb-4">您已成功登入會員系統！</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-center">
+      <a href="{{ url_for('edit_profile', iid=iid) }}" class="btn btn-primary">
+        修改基本資料
+      </a>
+      <button class="btn btn-danger" onclick="confirmDelete('{{ iid }}')">
+        刪除使用者
+      </button>
+      <a href="{{ url_for('index') }}" class="btn btn-secondary">
+        返回首頁
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Script 應放在內容區塊外部 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function confirmDelete(iid) {
+  Swal.fire({
+    title: '確定刪除此使用者？',
+    text: "所有相關記錄將一併刪除，是否繼續？",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: '確定',
+    cancelButtonText: '取消'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = `/delete/${iid}`;
+    }
+  });
+}
+</script>
+{% endblock %}
